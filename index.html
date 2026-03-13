@@ -76,7 +76,6 @@ async function clock(){
  const lng = pos.coords.longitude
 
  const distance = getDistance(lat,lng,companyLat,companyLng)
- alert("距離公司: " + Math.round(distance) + "m")
 
  if(distance > allowDistance){
 
