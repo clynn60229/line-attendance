@@ -105,15 +105,15 @@ async function clock(){
  })
 
  })
- .then(res=>res.text())
+ .then(res=>res.json())
  .then(result=>{
-
- if(result=="上班"){
- alert("上班打卡成功")
+     
+ if(result.message.includes("上班")){
+  alert("上班打卡成功")
  }
 
- else if(result=="下班"){
- alert("下班打卡成功")
+ else if(result.message.includes("下班")){
+  alert("下班打卡成功")
  }
 
  })
