@@ -2,9 +2,7 @@
 
 <h2>員工打卡</h2>
 <button onclick="clock()">打卡</button>
-function clock() {
-  alert("打卡按鈕被按了");
-}
+
 <script>
 
 const liffId = "你的LIFFID"
@@ -20,9 +18,9 @@ async function init(){
  if(!liff.isLoggedIn()){
   liff.login()
  }
-
 }
-
+window.onload = init;
+  
 function getDistance(lat1,lon1,lat2,lon2){
 
  const R = 6371000
