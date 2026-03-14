@@ -78,11 +78,12 @@ async function clock(){
   await liff.ready
   const profile = await liff.getProfile()
 
- navigator.geolocation.getCurrentPosition(function(pos){
-   
+ navigator.geolocation.getCurrentPosition(
+ function(pos){
   const lat = pos.coords.latitude
   const lng = pos.coords.longitude
-
+   
+  alert("GPS OK")
   const distance = getDistance(lat,lng,companyLat,companyLng)
 
   if(distance > allowDistance){
