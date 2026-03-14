@@ -1,54 +1,36 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="utf-8">
-
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
 
 body{
-  margin:0;
-  height:90vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial;
+margin:0;
+height:90vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial;
 }
 
 .container{
-  text-align:center;
-}
-
-.logo{
-  width:200px;
-  margin-bottom:20px;
+text-align:center;
 }
 
 button{
-  font-size:60px;
-  padding:40px 80px;
+font-size:60px;
+padding:40px 80px;
 }
 
 </style>
-
-</head>
-
 
 <body>
 
 <div class="container">
 
-<img src="line logo.png" class="logo">
-
-<h2 style="font-size:100px;">員工打卡</h2>
+<h2 style="font-size:80px;">員工打卡</h2>
 
 <button onclick="clock()">打卡</button>
 
 </div>
-
 
 <script>
 
@@ -57,15 +39,17 @@ const liffId = "2009436778-W5HckT9B"
 const companyLat = 25.043333055473344
 const companyLng = 121.58518373653834
 
-const allowDistance = 10000   // 100公尺
+const allowDistance = 200
+
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz_gzaT7cDSiw-5Gta_2E63Y-y-RdrIFt5-fmTQAMbjU6rQIAx-GbWjJ0SeIFf51DCc/exec"
 
 
 async function init(){
 
- await liff.init({ liffId:liffId })
+ await liff.init({liffId:liffId})
 
  if(!liff.isLoggedIn()){
-   liff.login()
+  liff.login()
  }
 
 }
@@ -92,74 +76,44 @@ function getDistance(lat1,lon1,lat2,lon2){
 
 async function clock(){
 
- try{
+ await liff.ready
 
-  await liff.ready
+ const profile = await liff.getProfile()
 
-  const profile = await liff.getProfile()
+ navigator.geolocation.getCurrentPosition(
 
-  navigator.geolocation.getCurrentPosition(
+ async function(pos){
 
-   async function(pos){
+ const lat = pos.coords.latitude
+ const lng = pos.coords.longitude
 
-    const lat = pos.coords.latitude
-    const lng = pos.coords.longitude
+ const distance = getDistance(lat,lng,companyLat,companyLng)
 
-    const distance = getDistance(lat,lng,companyLat,companyLng)
+ if(distance > allowDistance){
+  alert("不在公司範圍")
+  return
+ }
 
-    if(distance > allowDistance){
+ const res = await fetch(GAS_URL,{
+  method:"POST",
+  body:new URLSearchParams({
+   userId:profile.userId,
+   name:profile.displayName,
+   lat:lat,
+   lng:lng
+  })
+ })
 
-      alert("❌ 不在公司範圍內")
+ const text = await res.text()
 
-      return
-
-    }
-    aalert("定位成功，準備打卡")
-
-    const res = await fetch("https://script.google.com/macros/s/AKfycbyje9KFPyow46yMlfxhOMgOvYsqYR7jFHJ4eMvRO4QgSlJTiSI_NSdmBNfn1NRewMA6LQ/exec",{
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-
-        name:profile.displayName,
-        userId:profile.userId,
-        lat:lat,
-        lng:lng
-
-      })
-
-    })
-
-    const text = await res.text()
-
-    alert("✅ 打卡成功\n"+text)
-
-   },
-
-   function(err){
-
-    alert("GPS取得失敗")
-
-   }
-
-  )
-
- }catch(err){
-
-  alert("錯誤："+err)
+ alert(text)
 
  }
 
+ )
+
+}
 
 init()
 
 </script>
-
-</body>
-
-</html>
