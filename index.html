@@ -102,12 +102,11 @@ async function clock(){
    },
 
    body:JSON.stringify({
-     
-    name:profile.displayName,
-    userId:profile.userId,
-    lat:lat,
-    lng:lng
-   })
+    name:"test",
+    userId:"123",
+    lat:1,
+    lng:1
+ })
 
   })
   .then(res=>res.text())
