@@ -37,7 +37,7 @@ button{
 <button onclick="clock()">打卡</button>
 
 <script>
-
+alert('debug')
 const liffId = "2009436778-W5HckT9B"
 
 const companyLat = 25.043333055473344
@@ -72,7 +72,7 @@ function getDistance(lat1,lon1,lat2,lon2){
  return R*c
 
 }
-alert('debug')
+
 async function clock(){
   
   await liff.ready
