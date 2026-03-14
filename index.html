@@ -85,12 +85,7 @@ async function clock(){
   const lat = pos.coords.latitude
   const lng = pos.coords.longitude
    
-  const distance = getDistance(lat,lng,companyLat,companyLng)
-  alert("debug")
-  if(distance > allowDistance){
-   alert("不在公司範圍")
-   return
-  }
+  const distance = getDistance(lat,lng,companyLat,companyLng)}
 
   fetch("https://script.google.com/macros/s/AKfycbzuEoKFXZC1IBzWy__-10KxqfUm7XD5AU6J9BIj7k6ZLYkh9GkBTg2ZMuuRDwJGa6p3MA/exec",{
 
