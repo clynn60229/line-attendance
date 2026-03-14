@@ -37,9 +37,23 @@ padding:40px 80px;
 <button onclick="companyClock()">公司打卡</button>
 <button onclick="outsideClock()">外務打卡</button>
 
+<br><br><br>
+ 
+<!-- 外務輸入區 (預設隱藏) -->
+<div id="outsideBox" style="display:none">
 
+<h3>請輸入外務原因</h3>
+
+<input id="note" type="text"
+placeholder="例如：客戶會議"
+style="font-size:40px;padding:20px;width:80%">
+
+<br><br>
+
+<button onclick="outsideClock()">送出</button>
 </div>
-
+</div>
+ 
 <script>
 
 const liffId = "2009436778-W5HckT9B"
@@ -128,7 +142,13 @@ async function outsideClock(){
  await liff.ready
 
  const profile = await liff.getProfile()
+ const note = document.getElementById("note").value
 
+ if(!note){
+  alert("請輸入外務原因")
+  return
+ }
+ 
  navigator.geolocation.getCurrentPosition(async function(pos){
 
  const lat = pos.coords.latitude
@@ -152,7 +172,12 @@ async function outsideClock(){
  })
 
 }
+ 
+function showOutside(){
 
+ document.getElementById("outsideBox").style.display = "block"
+
+}
 init()
 
 </script>
