@@ -79,13 +79,15 @@ async function clock(){
   const profile = await liff.getProfile()
 
  navigator.geolocation.getCurrentPosition(
+   
  function(pos){
+   
   const lat = pos.coords.latitude
   const lng = pos.coords.longitude
    
-  alert("GPS OK")
   const distance = getDistance(lat,lng,companyLat,companyLng)
-
+   
+  alert("GPS OK")
   if(distance > allowDistance){
    alert("不在公司範圍")
    return
