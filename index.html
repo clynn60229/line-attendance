@@ -45,7 +45,7 @@ const liffId = "2009436778-W5HckT9B"
 const companyLat = 25.043333055473344
 const companyLng = 121.58518373653834
 
-const allowDistance = 200
+const allowDistance = 10000
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbz_gzaT7cDSiw-5Gta_2E63Y-y-RdrIFt5-fmTQAMbjU6rQIAx-GbWjJ0SeIFf51DCc/exec"
 
@@ -96,7 +96,7 @@ async function clock(){
  const distance = getDistance(lat,lng,companyLat,companyLng)
 
  if(distance > allowDistance){
-  alert("不在公司範圍")
+  alert("❌不在公司範圍")
   return
  }
 
