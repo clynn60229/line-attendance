@@ -94,21 +94,21 @@ async function clock(){
 
 
   fetch("https://script.google.com/macros/s/AKfycbzuEoKFXZC1IBzWy__-10KxqfUm7XD5AU6J9BIj7k6ZLYkh9GkBTg2ZMuuRDwJGa6p3MA/exec",{
+    alert('debug')
+    method:"POST",
 
-   method:"POST",
-
-   headers:{
-    "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-    name:"test",
-    userId:"123",
-    lat:1,
-    lng:1
+    headers:{
+      "Content-Type":"application/json"
+    },
+    
+  body:JSON.stringify({
+  name:profile.displayName,
+  userId:profile.userId,
+  lat:lat,
+  lng:lng
  })
-
-  })
+    
+})
   .then(res=>res.text())
 .then(text=>{
 
