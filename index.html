@@ -109,17 +109,18 @@ async function clock(){
 
   })
   .then(res=>res.text())
-  .then(text=>{
+  .then(result=>{
 
-  console.log(text)
+   if(result=="上班"){
+    alert("上班打卡成功")
+   }
 
-  const result = JSON.parse(text)
-
-  alert(result.message)
+   else if(result=="下班"){
+    alert("下班打卡成功")
+   }
 
   })
-
- })
+})
 
 }
 
