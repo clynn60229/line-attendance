@@ -43,9 +43,19 @@ padding:40px 80px;
 <div id="outsideBox" style="display:none">
 
 <h3>請輸入外務原因</h3>
+ 
+<div id="msg" style="
+display:none;
+font-size:60px;
+color:white;
+background:red;
+padding:20px;
+border-radius:10px;">
+請輸入外務原因
+</div>
 
 <input id="note" type="text"
-placeholder="例如：客戶會議"
+placeholder="例如：內湖進場"
 style="font-size:40px;padding:20px;width:80%">
 
 <br><br>
@@ -151,9 +161,9 @@ async function outsideClock(){
  const note = document.getElementById("note").value
 
  if(!note){
-  alert("請輸入外務原因")
-  return
- }
+ document.getElementById("msg").style.display="block"
+ return
+}
  
  navigator.geolocation.getCurrentPosition(async function(pos){
 
