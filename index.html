@@ -86,14 +86,14 @@ async function clock(){
   const lng = pos.coords.longitude
    
   const distance = getDistance(lat,lng,companyLat,companyLng)
-     alert("gos ok")
+
   if(distance > allowDistance){
    alert("不在公司範圍")
    return
   }
-  alert("上班打卡成功")
+
   fetch("https://script.google.com/macros/s/AKfycbzuEoKFXZC1IBzWy__-10KxqfUm7XD5AU6J9BIj7k6ZLYkh9GkBTg2ZMuuRDwJGa6p3MA/exec",{
-  alert("上班打卡成功")
+
    method:"POST",
 
    headers:{
