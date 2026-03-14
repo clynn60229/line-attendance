@@ -75,7 +75,13 @@ async function init(){
  }
 
 }
+ 
+function showOutside(){
 
+ document.getElementById("outsideBox").style.display = "block"
+
+}
+ 
 function getDistance(lat1,lon1,lat2,lon2){
 
  const R = 6371000
@@ -173,11 +179,6 @@ async function outsideClock(){
 
 }
  
-function showOutside(){
-
- document.getElementById("outsideBox").style.display = "block"
-
-}
 init()
 
 </script>
