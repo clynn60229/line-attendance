@@ -76,12 +76,10 @@ function getDistance(lat1,lon1,lat2,lon2){
 async function clock(){
   
   await liff.ready
-  alert("liff ready")
   const profile = await liff.getProfile()
-  alert("profile ok")
 
  navigator.geolocation.getCurrentPosition(function(pos){
-
+  alert("GPS OK")
   const lat = pos.coords.latitude
   const lng = pos.coords.longitude
 
