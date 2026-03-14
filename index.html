@@ -119,11 +119,7 @@ async function clock(){
 
       method:"POST",
 
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
+      body:new URLSearchParams({
         userId:profile.userId,
         name:profile.displayName,
         lat:lat,
@@ -132,25 +128,13 @@ async function clock(){
 
     })
 
-    const text = await res.text()
-
-    alert("✅ 打卡成功\n"+text)
-
-   },
-
-   function(err){
-
-    alert("GPS取得失敗")
-
-   }
-
-  )
-
- }catch(err){
-
-  alert("錯誤："+err)
-
- }
+   .then(res=>res.text())
+   .then(text=>{
+    alert(text)
+   })
+   .catch(err=>{
+    alert("錯誤："+err)
+   })
 
 }
 
