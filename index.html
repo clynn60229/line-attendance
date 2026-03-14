@@ -1,9 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
 <style>
 
 body{
   margin:0;
-  height:90vh;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -13,43 +21,51 @@ body{
 .container{
   text-align:center;
 }
+
 .logo{
-  width:210px;
-  margin-bottom:10px;
+  width:200px;
+  margin-bottom:20px;
 }
 
 button{
-  font-size:60px;
-  padding:40px 80px;
+  font-size:50px;
+  padding:30px 70px;
 }
 
 </style>
 
 </head>
 
+
 <body>
 
 <div class="container">
 
 <img src="line logo.png" class="logo">
-  
-<h2 style="font-size:150px;">員工打卡</h2>
+
+<h2 style="font-size:80px;">員工打卡</h2>
+
 <button onclick="clock()">打卡</button>
 
+</div>
+
+
 <script>
-alert('button works')
+
 const liffId = "2009436778-W5HckT9B"
 
 const companyLat = 25.043333055473344
 const companyLng = 121.58518373653834
-const allowDistance = 10000
+
+const allowDistance = 100   // 100公尺
+
 
 async function init(){
 
- await liff.init({liffId:liffId})
+ await liff.init({ liffId:liffId })
 
  if(!liff.isLoggedIn()){
-  liff.login()
+   liff.login()
  }
 
 }
@@ -73,58 +89,80 @@ function getDistance(lat1,lon1,lat2,lon2){
 
 }
 
+
 async function clock(){
 
+ try{
+
   await liff.ready
+
   const profile = await liff.getProfile()
 
- navigator.geolocation.getCurrentPosition(
-   
- function(pos){
-   
-  const lat = pos.coords.latitude
-  const lng = pos.coords.longitude
-   
-  const distance = getDistance(lat,lng,companyLat,companyLng)
-        
-  if(distance > allowDistance){
-   alert("不在公司範圍")
-   return
-  }
+  navigator.geolocation.getCurrentPosition(
 
-  fetch("https://script.google.com/macros/s/AKfycbzuEoKFXZC1IBzWy__-10KxqfUm7XD5AU6J9BIj7k6ZLYkh9GkBTg2ZMuuRDwJGa6p3MA/exec",{
+   async function(pos){
 
-    method:"POST",
+    const lat = pos.coords.latitude
+    const lng = pos.coords.longitude
 
-    headers:{
-      "Content-Type":"application/json"
-    },
-    
-  body:JSON.stringify({
-  name:profile.displayName,
-  userId:profile.userId,
-  lat:lat,
-  lng:lng
- })
-    
-})
-  .then(res=>res.text())
-.then(text=>{
+    const distance = getDistance(lat,lng,companyLat,companyLng)
 
- alert("API回傳："+text)
+    if(distance > allowDistance){
 
-})
-.catch(err=>{
+      alert("❌ 不在公司範圍內")
 
- alert("fetch錯誤："+err)
+      return
+
+    }
+
+    alert("定位成功，準備打卡")
+
+    const res = await fetch("https://script.google.com/macros/s/AKfycbzuEoKFXZC1IBzWy__-10KxqfUm7XD5AU6J9BIj7k6ZLYkh9GkBTg2ZMuuRDwJGa6p3MA/exec",{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        name:profile.displayName,
+        userId:profile.userId,
+        lat:lat,
+        lng:lng
+
+      })
+
+    })
+
+    const text = await res.text()
+
+    alert("✅ 打卡成功\n"+text)
+
+   },
+
+   function(err){
+
+    alert("GPS取得失敗")
 
    }
 
-  })
-})
+  )
+
+ }catch(err){
+
+  alert("錯誤："+err)
+
+ }
 
 }
+
 
 init()
 
 </script>
+
+</body>
+
+</html>
