@@ -87,7 +87,6 @@ async function clock(){
    
   const distance = getDistance(lat,lng,companyLat,companyLng)
    
-  alert("GPS OK")
   if(distance > allowDistance){
    alert("不在公司範圍")
    return
@@ -109,9 +108,15 @@ async function clock(){
    })
 
   })
-  .then(res=>res.json())
-  .then(result=>{
-   alert(result.message)
+  .then(res=>res.text())
+  .then(text=>{
+
+  console.log(text)
+
+  const result = JSON.parse(text)
+
+  alert(result.message)
+
   })
 
  })
