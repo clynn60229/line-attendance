@@ -114,29 +114,46 @@ async function clock(){
       return
 
     }
-    alert('gps ok')
+    aalert("定位成功，準備打卡")
+
     const res = await fetch("https://script.google.com/macros/s/AKfycbyje9KFPyow46yMlfxhOMgOvYsqYR7jFHJ4eMvRO4QgSlJTiSI_NSdmBNfn1NRewMA6LQ/exec",{
 
       method:"POST",
 
-      body:new URLSearchParams({
-        userId:profile.userId,
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
         name:profile.displayName,
+        userId:profile.userId,
         lat:lat,
         lng:lng
+
       })
 
     })
 
-   .then(res=>res.text())
-   .then(text=>{
-      alert(text)
-   })
-   .catch(err=>{
-      alert("錯誤："+err)
-   })
+    const text = await res.text()
 
-}
+    alert("✅ 打卡成功\n"+text)
+
+   },
+
+   function(err){
+
+    alert("GPS取得失敗")
+
+   }
+
+  )
+
+ }catch(err){
+
+  alert("錯誤："+err)
+
+ }
 
 
 init()
