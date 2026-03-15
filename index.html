@@ -26,14 +26,14 @@ padding:40px 80px;
 }
 
 .submitBtn{
-width:140px;
-height:55px;
-font-size:22px;
-border-radius:12px;
+width:150px;
+height:60px;
+font-size:26px;
+border-radius:15px;
 border:none;
 background:#555;
 color:white;
-margin-top:20px;
+white-space:nowrap;
 }
 
 </style>
@@ -65,7 +65,7 @@ style="font-size:40px;padding:20px;width:80%">
 
 <br><br>
 
-<button class="submitBtn">送出</button>
+<button class="submitBtn" onclick="sendOutside()">送出</button>
 </div>
  
 <div id="leaveBox" style="display:none;margin-top:20px">
@@ -82,7 +82,7 @@ style="font-size:40px;padding:20px;width:80%">
 
 <br><br>
 
-<button onclick="leaveSubmit()">送出</button>
+<button class="submitBtn" onclick="leaveSubmit()">送出</button>
 
 </div>
 </div>
