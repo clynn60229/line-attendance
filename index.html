@@ -34,7 +34,7 @@ padding:40px 80px;
 
 <h2 style="font-size:80px;">員工打卡</h2>
 
-<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-direction:column;gap:15px">
 <button onclick="companyClock()">公司打卡</button>
 <button onclick="showOutside()">外務打卡</button>
 <button onclick="showLeave()">請假</button>
@@ -101,6 +101,11 @@ function showOutside(){
 
 }
  
+function showLeave(){
+
+document.getElementById("leaveBox").style.display="block"
+
+} 
 function getDistance(lat1,lon1,lat2,lon2){
 
  const R = 6371000
@@ -201,6 +206,31 @@ async function outsideClock(){
 
 }
  
+async function leaveSubmit(){
+
+const profile = await liff.getProfile()
+
+const leaveType = document.getElementById("leaveType").value
+
+if(!leaveType){
+ alert("請選擇請假類型")
+ return
+}
+
+await fetch(GAS_URL,{
+ method:"POST",
+ body:new URLSearchParams({
+  userId:profile.userId,
+  name:profile.displayName,
+  type:leaveType
+ })
+})
+
+alert("請假成功")
+
+liff.closeWindow()
+
+} 
 init()
 
 </script>
