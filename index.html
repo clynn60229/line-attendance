@@ -97,15 +97,18 @@ async function init(){
  
 function showOutside(){
 
- document.getElementById("outsideBox").style.display = "block"
+document.getElementById("outsideBox").style.display="block"
+document.getElementById("leaveBox").style.display="none"
 
 }
  
 function showLeave(){
 
 document.getElementById("leaveBox").style.display="block"
+document.getElementById("outsideBox").style.display="none"
 
-} 
+}
+ 
 function getDistance(lat1,lon1,lat2,lon2){
 
  const R = 6371000
