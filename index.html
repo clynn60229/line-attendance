@@ -109,7 +109,7 @@ onchange="checkClockType()">
 </h2>
 
 <div style="font-size:28px;color:#666;margin-bottom:20px;">
-⚠️補打卡前面請加「補」
+⚠️ 補打卡前面請加「補」
 </div>
  
 <input id="note" type="text"
@@ -135,7 +135,16 @@ style="font-size:40px;padding:20px;width:80%">
 </select>
 
 <br><br>
+ 
+<div id="leaveDateBox" style="display:none">
 
+<h2 style="font-size:40px;">請假日期</h2>
+
+<input 
+type="date" 
+id="leaveDate"
+style="font-size:35px;padding:10px;width:80%;height:80px">
+ 
 <button class="submitBtn" onclick="leaveSubmit()">送出</button>
 
 </div>
@@ -319,19 +328,27 @@ async function leaveSubmit(){
 
 const profile = await liff.getProfile()
 
-const leaveType = document.getElementById("leaveType").value
+const type = document.getElementById("leaveType").value
+const date = document.getElementById("leaveDate").value
+ 
+if(type == ""){
+ alert("請選擇假別")
+ return
+}
 
-if(!leaveType){
- alert("請選擇請假類型")
+if(date == ""){
+ alert("請選擇請假日期")
  return
 }
 
 await fetch(GAS_URL,{
  method:"POST",
- body:new URLSearchParams({
+body:new URLSearchParams({
+  mode:"leave",
   userId:profile.userId,
   name:profile.displayName,
-  type:leaveType
+  type:type,
+  note:"請假日期:"+date
  })
 })
 
@@ -340,6 +357,17 @@ alert("✅請假成功")
 liff.closeWindow()
 
 } 
+ 
+function showLeaveDate(){
+
+const type = document.getElementById("leaveType").value
+
+if(type != ""){
+ document.getElementById("leaveDateBox").style.display="block"
+}
+
+}
+ 
 init()
 
 </script>
