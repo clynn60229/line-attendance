@@ -280,6 +280,18 @@ async function outsideClock(){
 
 }
  
+function checkClockType(){
+
+const type = document.getElementById("clockType").value
+
+if(type === "補打卡"){
+ document.getElementById("companyNote").style.display = "block"
+}else{
+ document.getElementById("companyNote").style.display = "none"
+}
+
+}
+ 
 async function leaveSubmit(){
 
 const profile = await liff.getProfile()
