@@ -54,7 +54,7 @@ white-space:nowrap;
 
 <div style="display:flex;flex-direction:column;gap:15px">
 <button onclick="showCompany()">公司打卡</button>
-<button onclick="showOutside()">外務打卡</button>
+<button onclick="showOutside()">外勤打卡</button>
 <button onclick="showLeave()" style="margin-bottom:1px;">
 請假<br>
 <span style="font-size:30px;margin-top:10px;">(一天以上)</span>
@@ -95,7 +95,7 @@ onchange="checkClockType()">
 
 </div>
  
-<!-- 外務下拉+輸入區 -->
+<!-- 外勤下拉+輸入區 -->
 <div id="outsideBox" style="display:none">
 <h2 style="font-size:40px;margin-top:0px;">請選擇打卡類型</h2>
  
@@ -109,7 +109,7 @@ style="font-size:40px;padding:10px;width:80%;height:90px;">
 </select>
 
 <h2 style="font-size:40px;margin-top:40px;margin-bottom:5px;">
-請輸入外務原因
+請輸入外勤原因
 </h2>
 
 <div style="font-size:28px;color:#666;margin-bottom:20px;">
@@ -292,7 +292,7 @@ async function outsideClock(){
  const note = document.getElementById("note").value
 
  if(!note){
- alert("⚠️請輸入外務原因")
+ alert("⚠️請輸入外勤原因")
  return
 }
  
