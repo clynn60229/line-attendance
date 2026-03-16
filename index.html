@@ -215,7 +215,7 @@ async function companyClock(){
  const distance = getDistance(lat,lng,companyLat,companyLng)
 
  if(distance > allowDistance){
-  alert("❌不在公司範圍")
+  alert("❌不在公司範圍\n距離："+Math.round(distance)+"m")
   return
  }
 
