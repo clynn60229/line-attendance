@@ -57,7 +57,10 @@ white-space:nowrap;
 <div style="display:flex;flex-direction:column;gap:15px">
 <button onclick="showCompany()">公司打卡</button>
 <button onclick="showOutside()">外務打卡</button>
-<button onclick="showLeave()" style="margin-bottom:1px;">請假</button>
+<button onclick="showLeave()" style="margin-bottom:1px;">
+請假<br>
+<span style="font-size:20px;">(一天以上)</span>
+</button>
 
 <br><br><br>
 
@@ -101,8 +104,14 @@ onchange="checkClockType()">
 <option value="補打卡">補打卡</option>
 </select>
 
-<h2 style="font-size:40px;margin-top:20px; margin-buttom:10px;">請輸入外務原因</h2> 
-<h3 style="font-size:30px;margin-top:1px;"">(補打卡前面請加"補")</h3>
+<h2 style="font-size:40px;margin-top:20px;margin-bottom:10px;">
+請輸入外務原因
+</h2>
+
+<div style="font-size:22px;color:#666;margin-bottom:20px;">
+(補打卡前面請加「補」)
+</div>
+ 
 <input id="note" type="text"
 placeholder="例如：內湖進場"
 style="font-size:40px;padding:20px;width:80%">
