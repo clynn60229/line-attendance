@@ -44,8 +44,6 @@ white-space:nowrap;
  
 </style>
 
-</style>
-
 <body>
 
 <div class="container">
@@ -81,11 +79,12 @@ onchange="checkClockType()">
 </select>
 
 <div id="companyNote" style="display:none">
-<h3 style="font-size:40px;margin-top:1px;">⚠️ 補打卡前面請加「補」</h2>  
+<h3 style="font-size:40px;margin-top:1px;">⚠️ 補打卡前面請加「補」</h3>  
 
 <input 
  type="text"
  placeholder="例如:補3/20 9:30上班"
+ id="companyNote"
  style="font-size:40px;padding:20px;width:80%;display:none;margin:40px auto;">
 
 <br><br>
@@ -134,10 +133,10 @@ onchange="showLeaveDate()">
  
 <option value="">請選擇</option>
 <option value="事假">事假</option>
-<option value="婚假">病假</option>
-<option value="喪假">公假</option>
-<option value="病假">喪假</option>
-<option value="事假">婚假</option>
+<option value="病假">病假</option>
+<option value="公假">公假</option>
+<option value="喪假">喪假</option>
+<option value="婚假">婚假</option>
 </select>
 
 <br><br>
@@ -325,8 +324,10 @@ function checkClockType(){
 
 const type = document.getElementById("companyType").value
 
-if(type == "補打卡"){
- document.getElementById("companyNoteBox").style.display="block"
+if(type=="補打卡"){
+ document.getElementById("companyNote").style.display="block"
+}else{
+ document.getElementById("companyNote").style.display="none"
 }
 
 async function leaveSubmit(){
