@@ -52,14 +52,38 @@ white-space:nowrap;
 
 <img src="line logo.png" class="logo">
 
-<h2 style="font-size:80px;">員工打卡</h2>
+<h2 style="font-size:80px;">員工出勤</h2>
 
 <div style="display:flex;flex-direction:column;gap:15px">
-<button onclick="companyClock()">公司打卡</button>
+<button onclick="showCompany()">公司打卡</button>
 <button onclick="showOutside()">外務打卡</button>
 <button onclick="showLeave()" style="margin-bottom:1px;">請假</button>
 
 <br><br><br>
+
+<!-- 公司打卡選單 -->
+<div id="companyBox" style="display:none">
+
+<h2 style="font-size:40px;margin-top:1px;">請選擇打卡類型</h2
+
+<select id="clockType" style="font-size:40px;padding-left:30px;padding:10px;width:80%;height:90px;">
+ 
+<option value="">請選擇</option>
+<option value="上班">上班</option>
+<option value="下班">下班</option>
+<option value="補打卡">補打卡</option>
+
+</select>
+ 
+<input id="companyNote" type="text"
+placeholder="補打卡原因"
+style="font-size:40px;padding:20px;width:80%;display:none">
+
+<br><br>
+
+<button class="submitBtn" onclick="companyClock()">送出</button>
+
+</div>
  
 <!-- 外務輸入區 (預設隱藏) -->
 <div id="outsideBox" style="display:none">
@@ -116,16 +140,26 @@ async function init(){
 
 }
  
+function showCompany(){
+
+document.getElementById("companyBox").style.display="block"
+document.getElementById("outsideBox").style.display="none"
+document.getElementById("leaveBox").style.display="none"
+
+}
+ 
 function showOutside(){
 
-document.getElementById("outsideBox").style.display="block"
+document.getElementById("companyBox").style.display="none"
+ document.getElementById("outsideBox").style.display="block"
 document.getElementById("leaveBox").style.display="none"
 
 }
  
 function showLeave(){
 
-document.getElementById("leaveBox").style.display="block"
+document.getElementById("companyBox").style.display="none"
+ document.getElementById("leaveBox").style.display="block"
 document.getElementById("outsideBox").style.display="none"
 
 }
@@ -156,6 +190,19 @@ async function companyClock(){
 
  const profile = await liff.getProfile()
 
+ const type = document.getElementById("clockType").value
+ const note = document.getElementById("companyNote").value
+
+ if(!type){
+  alert("請選擇打卡類型")
+  return
+ }
+
+ if(type === "補打卡" && !note){
+  alert("請輸入補打卡原因")
+  return
+ }
+
  navigator.geolocation.getCurrentPosition(
 
  async function(pos){
@@ -172,10 +219,12 @@ async function companyClock(){
 
  const res = await fetch(GAS_URL,{
   method:"POST",
-  body:new URLSearchParams({
+   body:new URLSearchParams({
    mode:"company",
    userId:profile.userId,
    name:profile.displayName,
+   type:type,
+   note:note,
    lat:lat,
    lng:lng
   })
@@ -184,6 +233,7 @@ async function companyClock(){
  const text = await res.text()
 
  alert(text)
+  
  liff.closeWindow()
 
  }
