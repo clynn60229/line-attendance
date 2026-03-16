@@ -80,6 +80,10 @@ onchange="checkClockType()">
 
 </select>
  
+<div style="font-size:28px;color:#666;margin-bottom:20px;display:none;" id="companyNoteText">
+⚠️ 補打卡前面請加「補」
+</div>
+
 <input id="companyNote" type="text"
 placeholder="補打卡原因"
 style="font-size:40px;padding:20px;width:80%;display:none;margin:40px auto;">
@@ -319,12 +323,14 @@ async function outsideClock(){
  
 function checkClockType(){
 
-const type = document.getElementById("clockType").value
+const type = document.getElementById("companyType").value
 
-if(type === "補打卡"){
+if(type == "補打卡"){
  document.getElementById("companyNote").style.display = "block"
+ document.getElementById("companyNoteText").style.display = "block"
 }else{
  document.getElementById("companyNote").style.display = "none"
+ document.getElementById("companyNoteText").style.display = "none"
 }
 
 }
