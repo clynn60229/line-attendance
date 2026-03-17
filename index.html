@@ -227,7 +227,8 @@ function getDistance(lat1,lon1,lat2,lon2){
 
 
 async function companyClock(){
-
+ document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
+ 
  await liff.ready
 
  const profile = await liff.getProfile()
@@ -339,7 +340,8 @@ if(type=="補打卡"){
 }
  
 async function leaveSubmit(){
-
+document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
+ 
 const profile = await liff.getProfile()
 
 const type = document.getElementById("leaveType").value
