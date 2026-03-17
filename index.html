@@ -285,7 +285,9 @@ async function companyClock(){
 }
  
 async function outsideClock(){
-
+ 
+ document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
+ 
  await liff.ready
 
  const profile = await liff.getProfile()
