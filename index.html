@@ -100,7 +100,8 @@ onchange="checkClockType()">
 <h2 style="font-size:40px;margin-top:0px;">請選擇打卡類型</h2>
  
 <select id="outsideType"
-style="font-size:40px;padding:10px;width:80%;height:90px;"> 
+style="font-size:40px;padding:10px;width:80%;height:90px;"
+onchange="checkOutsideType()">> 
  
 <option value="">請選擇</option>
 <option value="上班">上班</option>
@@ -112,7 +113,7 @@ style="font-size:40px;padding:10px;width:80%;height:90px;">
 請輸入外勤原因
 </h2>
 
-<div style="font-size:28px;color:#666;margin-bottom:20px;">
+<div id="outsideNoteHint" style="font-size:28px;color:#666;margin-bottom:20px;display:none;">
 ⚠️ 補打卡前面請加「補」
 </div>
  
@@ -335,7 +336,19 @@ if(type=="補打卡"){
 }
 
 }
+
  
+function checkOutsideType(){
+
+  const type = document.getElementById("outsideType").value
+
+  if(type == "補打卡"){
+    document.getElementById("outsideNoteHint").style.display = "block"
+  }else{
+    document.getElementById("outsideNoteHint").style.display = "none"
+  }
+
+} 
 async function leaveSubmit(){
 document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
  
