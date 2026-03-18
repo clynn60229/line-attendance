@@ -92,11 +92,13 @@ onchange="checkClockType()">
 
   </select>
 
-  <div id="overtimeHourBox" style="display:none;margin-top:20px;">
+  <div id="overtimeHourBox" style="display:none;margin-top:30px;">
     <input 
       type="number"
       id="overtimeHour"
       placeholder="加班幾小時"
+      step="0.5"
+      min="0"
       style="font-size:30px;padding:20px;width:80%;">
   </div>
 
@@ -273,15 +275,23 @@ async function companyClock(){
   const hour = document.getElementById("overtimeHour").value
  
   if(ot === "是"){
- 
+
     if(!hour){
       alert("請輸入加班時數")
       return
     }
- 
-    note = "加班:" + hour + "hr"
-  } 
- }
+
+    const num = parseFloat(hour)
+
+    // ✅ 檢查：只能整數或 .5
+    if(num % 1 !== 0 && num % 1 !== 0.5){
+      alert("只能輸入整數或0.5（例如 1、1.5、2）")
+      return
+    }
+
+   note = "加班:" + num + "hr"
+  }
+}
  
  if(type === "補打卡" && !note){
   alert("請輸入補打卡原因")
