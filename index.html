@@ -77,6 +77,30 @@ onchange="checkClockType()">
 <option value="補打卡">補打卡</option>
 
 </select>
+ 
+<div id="overtimeBox" style="display:none;margin-top:30px;">
+  
+  <h3 style="font-size:30px;">是否報加班？</h3>
+
+  <select id="overtimeYesNo"
+    style="font-size:30px;padding:10px;width:60%;height:70px;"
+    onchange="toggleOvertimeInput()">
+
+    <option value="">請選擇</option>
+    <option value="否">否</option>
+    <option value="是">是</option>
+
+  </select>
+
+  <div id="overtimeHourBox" style="display:none;margin-top:20px;">
+    <input 
+      type="number"
+      id="overtimeHour"
+      placeholder="加班幾小時"
+      style="font-size:30px;padding:15px;width:60%;">
+  </div>
+
+</div>
 
 <div id="companyNoteBox" style="display:none">
 <h3 style="font-size:30px;margin-top:40px;">⚠️ 補打卡前面請加「補」</h3>  
@@ -233,14 +257,32 @@ async function companyClock(){
 
  const profile = await liff.getProfile()
 
- const type = document.getElementById("companyType").value
- const note = document.getElementById("companyNote").value
+ let note = document.getElementById("companyNote").value || ""
 
+ const type = document.getElementById("companyType").value
+
+ // 下班才處理加班
  if(!type){
   alert("請選擇打卡類型")
   return
  }
-
+ 
+ if(type === "下班"){
+ 
+  const ot = document.getElementById("overtimeYesNo").value
+  const hour = document.getElementById("overtimeHour").value
+ 
+  if(ot === "是"){
+ 
+    if(!hour){
+      alert("請輸入加班時數")
+      return
+    }
+ 
+    note = "加班:" + hour + "hr"
+  } 
+ }
+ 
  if(type === "補打卡" && !note){
   alert("請輸入補打卡原因")
   return
@@ -342,6 +384,13 @@ function checkOutsideType(){
 
   const type = document.getElementById("outsideType").value
 
+  // 下班 → 顯示加班
+  if(type=="下班"){
+   document.getElementById("overtimeBox").style.display="block"
+  }else{
+   document.getElementById("overtimeBox").style.display="none"
+  }
+ 
   if(type == "補打卡"){
     document.getElementById("outsideNoteHint").style.display = "block"
   }else{
@@ -391,6 +440,17 @@ const type = document.getElementById("leaveType").value
 if(type != ""){
  document.getElementById("leaveDateBox").style.display="block"
 }
+
+}
+function toggleOvertimeInput(){
+
+ const val = document.getElementById("overtimeYesNo").value
+
+ if(val === "是"){
+  document.getElementById("overtimeHourBox").style.display = "block"
+ }else{
+  document.getElementById("overtimeHourBox").style.display = "none"
+ }
 
 }
  
