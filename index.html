@@ -266,12 +266,12 @@ async function companyClock(){
 
  const type = document.getElementById("companyType").value
 
- // 下班才處理加班
  if(!type){
   alert("請選擇打卡類型")
   return
  }
  
+  // 下班才處理加班
  if(type === "下班"){
  
   const ot = document.getElementById("overtimeYesNo").value
@@ -347,7 +347,11 @@ async function outsideClock(){
  const profile = await liff.getProfile()
  const type = document.getElementById("outsideType").value
  const note = document.getElementById("note").value
-
+ 
+ if(!type){
+  alert("請選擇打卡類型")
+  return
+ }
  if(!note){
  alert("⚠️請輸入外勤原因")
  return
