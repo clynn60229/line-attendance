@@ -134,7 +134,7 @@ onchange="checkOutsideType()">>
 </select>
 
 <h2 style="font-size:40px;margin-top:40px;margin-bottom:15px;">
-請輸入外勤原因
+請輸入外勤原因 (品牌＋地點）
 </h2>
 
 <div id="outsideNoteHint" style="font-size:28px;color:#666;margin-bottom:20px;display:none;">
@@ -142,7 +142,7 @@ onchange="checkOutsideType()">>
 </div>
  
 <input id="note" type="text"
-placeholder="例如：內湖進場"
+placeholder="例如：TW Dior 內湖進場"
 style="font-size:40px;padding:20px;width:80%">
 
 <br><br>
@@ -369,28 +369,26 @@ async function outsideClock(){
  
 function checkClockType(){
 
-const type = document.getElementById("companyType").value
+ const type = document.getElementById("companyType").value
+ // 下班 → 顯示加班
+ if(type=="下班"){
+   document.getElementById("overtimeBox").style.display="block"
+ }else{
+  document.getElementById("overtimeBox").style.display="none"
+ } 
 
-if(type=="補打卡"){
- document.getElementById("companyNoteBox").style.display="block"
-}else{
- document.getElementById("companyNoteBox").style.display="none"
+ if(type=="補打卡"){
+  document.getElementById("companyNoteBox").style.display="block"
+ }else{
+  document.getElementById("companyNoteBox").style.display="none"
 }
 
 }
-
  
 function checkOutsideType(){
 
   const type = document.getElementById("outsideType").value
 
-  // 下班 → 顯示加班
-  if(type=="下班"){
-   document.getElementById("overtimeBox").style.display="block"
-  }else{
-   document.getElementById("overtimeBox").style.display="none"
-  }
- 
   if(type == "補打卡"){
     document.getElementById("outsideNoteHint").style.display = "block"
   }else{
@@ -398,6 +396,7 @@ function checkOutsideType(){
   }
 
 } 
+ 
 async function leaveSubmit(){
 document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
  
