@@ -30,6 +30,11 @@ h2{
  margin:20px 0 30px 0;
 }
  
+h3{
+ font-size:50px;
+ margin:15px 0 8px 0;
+}
+ 
 #menu{
  width:150%;
  display:flex;
@@ -51,32 +56,52 @@ button{
 }
 
 .submitBtn{
- width:150px;
- height:70px;
- font-size:35px;
+ width:85%;
+ max-width:320px;
+ height:60px;
+ font-size:22px;
  border-radius:15px;
  border:none;
  background:#555;
  color:white;
- margin:30px auto;
- display:block;
-}
+ margin:25px auto;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}5
 </style>
 
 <body>
 
 <div class="container">
- 
-<img src="line logo.png" class="logo">
- 
-<h2 style="font-size:80px;">員工出勤</h2>
 
-<!-- 主選單 -->
-<div id="menu" style="display:flex;flex-direction:column;gap:20px">
+<img src="line logo.png" class="logo">
+
+<!-- Header（返回 + 動態標題） -->
+<div id="header" style="display:none;position:relative;">
+
+<button onclick="goBack()" style="
+position:absolute;
+left:0;
+top:0;
+background:none;
+border:none;
+font-size:20px;
+color:#007AFF;
+">← 返回</button>
+
+<h2 id="pageTitle">上班時間出勤</h2>
+
+</div>
+
+<!-- 主頁 -->
+<div id="menu">
+
+<h2>員工出勤</h2>
 
 <button onclick="showWorkTime()">
 上班時間出勤<br>
-<span style="font-size:40px;">(9:30~18:30)</span>
+<span style="font-size:16px;">(9:30~18:30)</span>
 </button>
 
 <button onclick="showOverTime()">以外時間出勤</button>
@@ -89,23 +114,21 @@ button{
 <div id="workBox" style="display:none">
 
 <h3>地點</h3>
-<select id="locationType" style="font-size:35px;width:90%;height:70px;">
+<select id="locationType">
 <option value="">請選擇</option>
 <option value="公司內">公司內</option>
 <option value="公司外">公司外</option>
 </select>
 
 <h3>類型</h3>
-<select id="clockType" style="font-size:35px;width:80%;height:70px;">
+<select id="clockType">
 <option value="">請選擇</option>
 <option value="上班">上班</option>
 <option value="下班">下班</option>
 </select>
 
 <h3>備註</h3>
-<input id="note" type="text"
-placeholder="例如：TW Dior 內湖進場"
-style="font-size:30px;width:100%;padding:15px;">
+<input id="note" type="text" placeholder="例如：TW Dior 內湖進場">
 
 <button class="submitBtn" onclick="submitClock()">送出</button>
 
@@ -114,8 +137,8 @@ style="font-size:30px;width:100%;padding:15px;">
 <!-- 請假 -->
 <div id="leaveBox" style="display:none">
 
-<h2>請假類型</h2>
-<select id="leaveType" style="font-size:30px;width:80%;height:70px;">
+<h3>請假類型</h3>
+<select id="leaveType">
 <option value="">請選擇</option>
 <option value="事假">事假</option>
 <option value="病假">病假</option>
@@ -123,10 +146,8 @@ style="font-size:30px;width:100%;padding:15px;">
 <option value="年假">年假</option>
 </select>
 
-<h2>請假日期</h2>
-<input id="leaveDate" type="text"
-placeholder="例如 3/20~3/25"
-style="font-size:30px;width:80%;padding:15px;">
+<h3>請假日期</h3>
+<input id="leaveDate" type="text" placeholder="例如 3/20~3/25">
 
 <button class="submitBtn" onclick="submitLeave()">送出</button>
 
@@ -144,7 +165,7 @@ const allowDistance = 400
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbz_gzaT7cDSiw-5Gta_2E63Y-y-RdrIFt5-fmTQAMbjU6rQIAx-GbWjJ0SeIFf51DCc/exec"
 
-let currentMode = "" // worktime / overtime
+let currentMode = ""
 
 // 初始化
 async function init(){
@@ -154,22 +175,36 @@ async function init(){
  }
 }
 
-// 切換頁面
+// 顯示頁面
 function showWorkTime(){
  currentMode = "worktime"
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="block"
+ document.getElementById("header").style.display="block"
+ document.getElementById("pageTitle").innerText="上班時間出勤"
 }
 
 function showOverTime(){
  currentMode = "overtime"
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="block"
+ document.getElementById("header").style.display="block"
+ document.getElementById("pageTitle").innerText="以外時間出勤"
 }
 
 function showLeave(){
  document.getElementById("menu").style.display="none"
  document.getElementById("leaveBox").style.display="block"
+ document.getElementById("header").style.display="block"
+ document.getElementById("pageTitle").innerText="請假"
+}
+
+// 返回
+function goBack(){
+ document.getElementById("menu").style.display="block"
+ document.getElementById("workBox").style.display="none"
+ document.getElementById("leaveBox").style.display="none"
+ document.getElementById("header").style.display="none"
 }
 
 // 計算距離
@@ -188,8 +223,11 @@ function getDistance(lat1,lon1,lat2,lon2){
  return R*c
 }
 
-// 出勤送出
+// 出勤
 async function submitClock(){
+
+ const btn = document.querySelector(".submitBtn")
+ btn.disabled = true
 
  await liff.ready
  const profile = await liff.getProfile()
@@ -200,11 +238,13 @@ async function submitClock(){
 
  if(!locationType){
   alert("請選擇地點")
+  btn.disabled = false
   return
  }
 
  if(!type){
   alert("請選擇上班或下班")
+  btn.disabled = false
   return
  }
 
@@ -212,15 +252,12 @@ async function submitClock(){
 
   const lat = pos.coords.latitude
   const lng = pos.coords.longitude
-
   const distance = getDistance(lat,lng,companyLat,companyLng)
 
-  // 公司內限制
-  if(locationType === "公司內"){
-   if(distance > allowDistance){
-    alert("❌不在公司範圍")
-    return
-   }
+  if(locationType === "公司內" && distance > allowDistance){
+   alert("❌不在公司範圍")
+   btn.disabled = false
+   return
   }
 
   const res = await fetch(GAS_URL,{
@@ -248,7 +285,6 @@ async function submitClock(){
 // 請假
 async function submitLeave(){
 
- await liff.ready
  const profile = await liff.getProfile()
 
  const type = document.getElementById("leaveType").value
@@ -282,4 +318,5 @@ async function submitLeave(){
 
 init()
 
+</script>
 </script>
