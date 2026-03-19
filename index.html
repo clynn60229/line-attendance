@@ -1,449 +1,253 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
-
 body{
-margin:0;
-height:90vh;
-display:flex;
-justify-content:center;
-align-items:center;
-font-family:Arial;
+ margin:0;
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-family:Arial;
 }
 
 .container{
-text-align:center;
+ text-align:center;
 }
- 
-.logo{
-  width:200px;
-  margin-bottom:20px;
-}
- 
+
 button{
-font-size:60px;
-padding:40px 160px;
+ font-size:50px;
+ padding:30px 100px;
+ margin:10px;
 }
 
 .submitBtn{
-width:80px;
-height:58px;
-font-size:35px;
-border-radius:15px;
-border:none;
-background:#555;
-color:white;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-margin:25px auto;
-white-space:nowrap;
+ width:120px;
+ height:70px;
+ font-size:35px;
+ border-radius:15px;
+ border:none;
+ background:#555;
+ color:white;
+ margin:30px auto;
+ display:block;
 }
- 
 </style>
 
 <body>
 
 <div class="container">
 
-<img src="line logo.png" class="logo">
+<h2 style="font-size:70px;">員工出勤</h2>
 
-<h2 style="font-size:80px;">員工出勤</h2>
+<!-- 主選單 -->
+<div id="menu">
 
-<div style="display:flex;flex-direction:column;gap:15px">
-<button onclick="showCompany()">公司打卡</button>
-<button onclick="showOutside()">外勤打卡</button>
-<button onclick="showLeave()" style="margin-bottom:1px;">
-請假<br>
-<span style="font-size:30px;margin-top:10px;">(一天以上)</span>
+<button onclick="showWorkTime()">
+上班時間出勤<br>
+<span style="font-size:25px;">(9:30~18:30)</span>
 </button>
 
-<br><br><br>
+<button onclick="showOverTime()">以外時間出勤</button>
 
-<!-- 公司打卡選單 -->
-<div id="companyBox" style="display:none">
+<button onclick="showLeave()">請假</button>
 
-<h2 style="font-size:40px;margin-top:0px;">請選擇打卡類型</h2>
+</div>
 
-<select id="companyType"
-style="font-size:40px;padding:10px;width:80%;height:90px;"
-onchange="checkClockType()">
- 
+<!-- 出勤 -->
+<div id="workBox" style="display:none">
+
+<h2>地點</h2>
+<select id="locationType" style="font-size:30px;width:80%;height:70px;">
+<option value="">請選擇</option>
+<option value="公司內">公司內</option>
+<option value="公司外">公司外</option>
+</select>
+
+<h2>類型</h2>
+<select id="clockType" style="font-size:30px;width:80%;height:70px;">
 <option value="">請選擇</option>
 <option value="上班">上班</option>
 <option value="下班">下班</option>
-<option value="補打卡">補打卡</option>
-
 </select>
 
-<!-- 公司下班備註 -->
- 
-<div id="companyOffBox" style="display:none;margin-top:20px;">
-
-<h3 style="font-size:40px;margin-bottom:15px">備註</h3>
-
-<input 
- type="text"
- id="companyOffNote"
- placeholder="例如：加班2小時"
- style="font-size:35px;padding:30px;width:80%;">
-
-</div>
-
-<!-- ✅ 補打卡 -->
- 
-<div id="companyNoteBox" style="display:none">
- 
-<div id="companyNoteHint" style="font-size:30px;color:#666;margin:20px auto;display:none;">
-⚠️ 補打卡前面請加「補」
-</div>
-
-<input 
- type="text"
- placeholder="例如: 補3/20 9:30上班"
- id="companyNote"
- style="font-size:34px;padding:20px;width:80%;margin-top:5px;">
-
-</div>
- 
-<br><br>
-
-<button class="submitBtn" onclick="companyClock()">送出</button>
-
-</div>
- 
-<!-- 外勤下拉+輸入區 -->
-<div id="outsideBox" style="display:none">
-<h2 style="font-size:40px;margin-top:0px;">請選擇打卡類型</h2>
- 
-<select id="outsideType"
-style="font-size:40px;padding:10px;width:80%;height:90px;"
-onchange="checkOutsideType()">> 
- 
-<option value="">請選擇</option>
-<option value="上班">上班</option>
-<option value="下班">下班</option>
-<option value="補打卡">補打卡</option>
-</select>
-
-<h2 style="font-size:40px;margin-top:40px;margin-bottom:15px;">
-請輸入外勤原因 (品牌＋地點）
-</h2>
-
-<div id="outsideNoteHint" style="font-size:30px;color:#666;margin-bottom:20px;display:none;">
-⚠️ 補打卡前面請加「補」
-</div>
- 
+<h2>備註</h2>
 <input id="note" type="text"
 placeholder="例如：TW Dior 內湖進場"
-style="font-size:40px;padding:20px;width:100%; box-sizing:border-box;">
+style="font-size:30px;width:80%;padding:15px;">
 
-<br><br>
+<button class="submitBtn" onclick="submitClock()">送出</button>
 
-<button class="submitBtn" onclick="outsideClock()">送出</button>
 </div>
- 
+
+<!-- 請假 -->
 <div id="leaveBox" style="display:none">
 
-<h2 style="font-size:40px;margin-top:1px;">請選擇請假原因</h2> 
-
-<select id="leaveType"
-style="font-size:40px;padding:10px;width:80%;height:90px;"
-onchange="showLeaveDate()">
- 
+<h2>請假類型</h2>
+<select id="leaveType" style="font-size:30px;width:80%;height:70px;">
 <option value="">請選擇</option>
 <option value="事假">事假</option>
 <option value="病假">病假</option>
 <option value="公假">公假</option>
 <option value="年假">年假</option>
-<option value="喪假">喪假</option>
-<option value="婚假">婚假</option>
 </select>
 
-<br><br>
- 
-<div id="leaveDateBox" style="display:none">
+<h2>請假日期</h2>
+<input id="leaveDate" type="text"
+placeholder="例如 3/20~3/25"
+style="font-size:30px;width:80%;padding:15px;">
 
-<h2 style="font-size:40px;margin-bottom:10px;">請假日期</h2>
-
-<input 
- type="text"
- placeholder="例如: 3/20~3/25"
- id="leaveDate"
- style="font-size:35px;padding:10px;width:80%;height:80px;margin-bottom:20px;">
- 
-<button class="submitBtn" onclick="leaveSubmit()">送出</button>
+<button class="submitBtn" onclick="submitLeave()">送出</button>
 
 </div>
+
 </div>
- 
+
 <script>
 
 const liffId = "2009436778-W5HckT9B"
 
 const companyLat = 25.043333055473344
 const companyLng = 121.58518373653834
-
-const allowDistance = 376
-const allowDistance_2 = 360
+const allowDistance = 400
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbz_gzaT7cDSiw-5Gta_2E63Y-y-RdrIFt5-fmTQAMbjU6rQIAx-GbWjJ0SeIFf51DCc/exec"
 
+let currentMode = "" // worktime / overtime
 
+// 初始化
 async function init(){
-
  await liff.init({liffId:liffId})
-
  if(!liff.isLoggedIn()){
   liff.login()
  }
-
 }
- 
-function showCompany(){
 
-document.getElementById("companyBox").style.display="block"
-document.getElementById("outsideBox").style.display="none"
-document.getElementById("leaveBox").style.display="none"
-
+// 切換頁面
+function showWorkTime(){
+ currentMode = "worktime"
+ document.getElementById("menu").style.display="none"
+ document.getElementById("workBox").style.display="block"
 }
- 
-function showOutside(){
 
-document.getElementById("companyBox").style.display="none"
- document.getElementById("outsideBox").style.display="block"
-document.getElementById("leaveBox").style.display="none"
-
+function showOverTime(){
+ currentMode = "overtime"
+ document.getElementById("menu").style.display="none"
+ document.getElementById("workBox").style.display="block"
 }
- 
+
 function showLeave(){
-
-document.getElementById("companyBox").style.display="none"
+ document.getElementById("menu").style.display="none"
  document.getElementById("leaveBox").style.display="block"
-document.getElementById("outsideBox").style.display="none"
-
 }
- 
+
+// 計算距離
 function getDistance(lat1,lon1,lat2,lon2){
-
  const R = 6371000
-
  const dLat = (lat2-lat1)*Math.PI/180
  const dLon = (lon2-lon1)*Math.PI/180
 
  const a =
- Math.sin(dLat/2)*Math.sin(dLat/2)+
- Math.cos(lat1*Math.PI/180)*
- Math.cos(lat2*Math.PI/180)*
- Math.sin(dLon/2)*Math.sin(dLon/2)
+  Math.sin(dLat/2)*Math.sin(dLat/2)+
+  Math.cos(lat1*Math.PI/180)*
+  Math.cos(lat2*Math.PI/180)*
+  Math.sin(dLon/2)*Math.sin(dLon/2)
 
  const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))
-
  return R*c
-
 }
 
+// 出勤送出
+async function submitClock(){
 
-async function companyClock(){
- 
  await liff.ready
-
  const profile = await liff.getProfile()
- const type = document.getElementById("companyType").value
+
+ const locationType = document.getElementById("locationType").value
+ const type = document.getElementById("clockType").value
+ const note = document.getElementById("note").value || ""
+
+ if(!locationType){
+  alert("請選擇地點")
+  return
+ }
 
  if(!type){
-  alert("請選擇打卡類型")
-  return
- }
- 
- let note = ""
-
- if(type === "下班"){
-  note = document.getElementById("companyOffNote").value || ""
- }
-
- if(type === "補打卡"){
-  note = document.getElementById("companyNote").value || ""
-
- if(!note){
-    alert("請輸入補打卡內容")
-    return
-  }
-}
-
- navigator.geolocation.getCurrentPosition(
-
- async function(pos){
-
- const lat = pos.coords.latitude
- const lng = pos.coords.longitude
-
- const distance = getDistance(lat,lng,companyLat,companyLng)
-
- if(distance > allowDistance || distance < allowDistance_2 ){
-  alert("❌不在公司範圍\n距離")
+  alert("請選擇上班或下班")
   return
  }
 
- const res = await fetch(GAS_URL,{
-  method:"POST",
-   body:new URLSearchParams({
-   mode:"company",
-   userId:profile.userId,
-   name:profile.displayName,
-   type:type,
-   note:note,
-   lat:lat,
-   lng:lng
-  })
- })
-
- const text = await res.text()
-
- alert(text)
-  
- liff.closeWindow()
-
- }
-
- )
-
-}
- 
-async function outsideClock(){
- 
- await liff.ready
-
- const profile = await liff.getProfile()
- const type = document.getElementById("outsideType").value
- const note = document.getElementById("note").value
- 
- if(!type){
-  alert("請選擇打卡類型")
-  return
- }
- if(!note){
- alert("⚠️請輸入外勤原因")
- return
-}
- 
  navigator.geolocation.getCurrentPosition(async function(pos){
 
- const lat = pos.coords.latitude
- const lng = pos.coords.longitude
+  const lat = pos.coords.latitude
+  const lng = pos.coords.longitude
 
- const res = await fetch(GAS_URL,{
+  const distance = getDistance(lat,lng,companyLat,companyLng)
+
+  // 公司內限制
+  if(locationType === "公司內"){
+   if(distance > allowDistance){
+    alert("❌不在公司範圍")
+    return
+   }
+  }
+
+  const res = await fetch(GAS_URL,{
+   method:"POST",
+   body:new URLSearchParams({
+    mode: currentMode,
+    location: locationType,
+    userId: profile.userId,
+    name: profile.displayName,
+    type: type,
+    note: note,
+    lat: lat,
+    lng: lng
+   })
+  })
+
+  const text = await res.text()
+  alert(text)
+  liff.closeWindow()
+
+ })
+
+}
+
+// 請假
+async function submitLeave(){
+
+ await liff.ready
+ const profile = await liff.getProfile()
+
+ const type = document.getElementById("leaveType").value
+ const date = document.getElementById("leaveDate").value
+
+ if(!type){
+  alert("請選擇請假類型")
+  return
+ }
+
+ if(!date){
+  alert("請輸入日期")
+  return
+ }
+
+ await fetch(GAS_URL,{
   method:"POST",
   body:new URLSearchParams({
-   mode:"outside",
+   mode:"leave",
    userId:profile.userId,
    name:profile.displayName,
    type:type,
-   lat:lat,
-   lng:lng,
-   note:note
+   note:"請假日期: "+date
   })
  })
 
- const text = await res.text()
-
- alert(text)
+ alert("✅請假成功")
  liff.closeWindow()
 
- })
-
-}
- 
-function checkClockType(){
-
- const type = document.getElementById("companyType").value
-
- // ❌ 全部先隱藏
- document.getElementById("companyOffBox").style.display = "none"
- document.getElementById("companyNoteBox").style.display = "none"
-
- // ✅ 下班 → 顯示備註
- if(type === "下班"){
-   document.getElementById("companyOffBox").style.display = "block"
- }
-
- // ✅ 補打卡 → 顯示補打卡輸入
- if(type === "補打卡"){
-   document.getElementById("companyNoteBox").style.display = "block"
- }
-
-}
- 
-function checkOutsideType(){
-
-  const type = document.getElementById("outsideType").value
-
-  if(type == "補打卡"){
-    document.getElementById("outsideNoteHint").style.display = "block"
-  }else{
-    document.getElementById("outsideNoteHint").style.display = "none"
-  }
-
-} 
- 
-async function leaveSubmit(){
-document.querySelectorAll(".submitBtn").forEach(btn => btn.disabled = true)
- 
-const profile = await liff.getProfile()
-
-const type = document.getElementById("leaveType").value
-const date = document.getElementById("leaveDate").value
- 
-if(type == ""){
- alert("請選擇假別")
- return
 }
 
-if(date == ""){
- alert("請選擇請假日期")
- return
-}
-
-await fetch(GAS_URL,{
- method:"POST",
-body:new URLSearchParams({
-  mode:"leave",
-  userId:profile.userId,
-  name:profile.displayName,
-  type:type,
-  note:"請假日期: "+date
- })
-})
-
-alert("✅請假成功")
-
-liff.closeWindow()
-
-} 
- 
-function showLeaveDate(){
-
-const type = document.getElementById("leaveType").value
-
-if(type != ""){
- document.getElementById("leaveDateBox").style.display="block"
-}
-
-}
-function toggleOvertimeInput(){
-
- const val = document.getElementById("overtimeYesNo").value
-
- if(val === "是"){
-  document.getElementById("overtimeHourBox").style.display = "block"
- }else{
-  document.getElementById("overtimeHourBox").style.display = "none"
- }
-
-}
- 
 init()
 
 </script>
