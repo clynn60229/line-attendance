@@ -81,17 +81,19 @@ onchange="checkClockType()">
 <!-- 公司下班備註 -->
  
 <div id="companyOffBox" style="display:none;margin-top:30px;">
-<h3 style="font-size:40px;"備註</h3>
 
- <input 
-      type="text"
-      id="companyOffNote"
-      placeholder="例:加班幾小時 (0.5hr 為單位)"
-      style="font-size:30px;padding:20px;width:80%;">
-  </div>
+<h3 style="font-size:40px;">備註</h3>
+
+<input 
+ type="text"
+ id="companyOffNote"
+ placeholder="例如：加班2小時"
+ style="font-size:30px;padding:20px;width:80%;">
 
 </div>
 
+<!-- ✅ 補打卡 -->
+ 
 <div id="companyNoteBox" style="display:none">
  
 <div id="companyNoteHint" style="font-size:30px;color:#666;margin:20px auto;display:none;">
@@ -249,9 +251,6 @@ async function companyClock(){
  await liff.ready
 
  const profile = await liff.getProfile()
-
- let note = document.getElementById("companyNote").value || ""
-
  const type = document.getElementById("companyType").value
 
  if(!type){
@@ -259,35 +258,20 @@ async function companyClock(){
   return
  }
  
-  // 下班才處理加班
+ let note = ""
+
  if(type === "下班"){
- 
-  const ot = document.getElementById("overtimeYesNo").value
-  const hour = document.getElementById("overtimeHour").value
- 
-  if(ot === "是"){
+  note = document.getElementById("companyOffNote").value || ""
+ }
 
-    if(!hour){
-      alert("請輸入加班時數")
-      return
-    }
+ if(type === "補打卡"){
+  note = document.getElementById("companyNote").value || ""
 
-    const num = parseFloat(hour)
-
-    // ✅ 檢查：只能整數或 .5
-    if(num % 1 !== 0 && num % 1 !== 0.5){
-      alert("只能輸入整數或0.5（例如 1、1.5、2）")
-      return
-    }
-
-   note = "加班:" + num + "hr"
+ if(!note){
+    alert("請輸入補打卡內容")
+    return
   }
 }
- 
- if(type === "補打卡" && !note){
-  alert("請輸入補打卡原因")
-  return
- }
 
  navigator.geolocation.getCurrentPosition(
 
@@ -375,21 +359,20 @@ async function outsideClock(){
 function checkClockType(){
 
  const type = document.getElementById("companyType").value
- // 下班 → 顯示備註
- if(type=="下班"){
-   document.getElementById("companyOffBox").style.display="block"
- }else{
-  document.getElementById("companyOffBox").style.display="none"
- } 
 
- if(type=="補打卡"){
-  
-  document.getElementById("companyNoteHint").style.display="block"
-  document.getElementById("companyNoteBox").style.display="block"
- }else{
-  document.getElementById("companyNoteHint").style.display="none"
-  document.getElementById("companyNoteBox").style.display="none"
-}
+ // ❌ 全部先隱藏
+ document.getElementById("companyOffBox").style.display = "none"
+ document.getElementById("companyNoteBox").style.display = "none"
+
+ // ✅ 下班 → 顯示備註
+ if(type === "下班"){
+   document.getElementById("companyOffBox").style.display = "block"
+ }
+
+ // ✅ 補打卡 → 顯示補打卡輸入
+ if(type === "補打卡"){
+   document.getElementById("companyNoteBox").style.display = "block"
+ }
 
 }
  
