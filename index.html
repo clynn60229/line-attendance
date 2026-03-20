@@ -9,12 +9,14 @@ body{
  
 #header{
  width:100%;
- height:80px;
+ height:60px;
  background:#716f70;
  display:flex;
  align-items:center;
  justify-content:center;
  position:relative;
+
+ padding-top: env(safe-area-inset-top);
 }
  
 #backBtn{
@@ -73,7 +75,8 @@ select, input{
  display:flex;
  flex-direction:column;
  align-items:center;
-} 
+ margin-bottom:20px;
+}
  
 .logo{
  width:200px;
@@ -103,7 +106,7 @@ button{
  width:180%;
  max-width:500px;
  font-size:50px;
- padding:30px;
+ padding:40px;
  border-radius:20px;
  border:none;
  background:#dcdcdc;
@@ -131,20 +134,21 @@ button{
  flex-direction:column;
  align-items:center;
 
- padding-top:30px;
+ padding-top:20px;   
+ padding-bottom:100px; 
+
  width:100%;
 }
  
 #backBtn{
- position:fixed;
- top:20px;
+ position:absolute;
  left:15px;
- font-size:28px;
+ top:50%;
+ transform:translateY(-50%); /* 🔥 垂直置中 */
+ font-size:22px;
  background:none;
  border:none;
- color:#007AFF;
- display:none;
- z-index:1000;
+ color:white;
 }
  
 </style>
@@ -170,7 +174,7 @@ button{
     
     <button onclick="showWorkTime()">
     上班時間出勤<br>
-    <span style="font-size:30px;">(9:30~18:30)</span>
+    <span style="font-size:35px;">(9:30~18:30)</span>
     </button>
     
     <button onclick="showOverTime()">以外時間出勤</button>
@@ -185,30 +189,30 @@ button{
 <!-- 出勤 -->
 <div id="workBox" style="display:none">
 
-<div class="formGroup">
-  <h3>地點</h3>
-  <select id="locationType">
-  <option value="">請選擇</option>
-  <option value="公司內">公司內</option>
-  <option value="公司外">公司外</option>
-  </select>
-</div>
-
-<div class="formGroup">
-  <h3>類型</h3>
-  <select id="clockType">
-  <option value="">請選擇</option>
-  <option value="上班">上班</option>
-  <option value="下班">下班</option>
-  </select>
-</div>
- 
-<div class="formGroup">
- <h3>備註</h3>
- <input id="note" type="text" placeholder="例：TW Dior 內湖進場">
-</div>
- 
-<button class="submitBtn" onclick="submitClock()">送出</button>
+   <div class="formGroup">
+     <h3>地點</h3>
+     <select id="locationType">
+     <option value="">請選擇</option>
+     <option value="公司內">公司內</option>
+     <option value="公司外">公司外</option>
+     </select>
+   </div>
+   
+   <div class="formGroup">
+     <h3>類型</h3>
+     <select id="clockType">
+     <option value="">請選擇</option>
+     <option value="上班">上班</option>
+     <option value="下班">下班</option>
+     </select>
+   </div>
+    
+   <div class="formGroup">
+    <h3>備註</h3>
+    <input id="note" type="text" placeholder="例：TW Dior 內湖進場">
+   </div>
+    
+   <button class="submitBtn" onclick="submitClock()">送出</button>
 
 </div>
 
