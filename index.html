@@ -160,6 +160,24 @@ button{
  color:white;
 }
  
+/* 主頁置中 */
+.centerMode{
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ height:calc(100vh - 90px); /* 扣 header */
+}
+
+/* 內頁：正常表單 */
+.formMode{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ padding-top:20px;
+ padding-bottom:100px;
+}
+ 
 </style>
 
 <body>
@@ -173,7 +191,7 @@ button{
 
 <button id="backBtn" onclick="goBack()">←</button>
  
-<div class="container">
+<div class="container centerMode" id="mainContainer">
 
 <!-- 主頁 -->
  <div id="menu">
@@ -274,7 +292,9 @@ function showWorkTime(){
 
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="flex"
-
+ 
+ document.getElementById("mainContainer").className = "container formMode"
+ 
  window.scrollTo(0,0)  
  
  document.getElementById("backBtn").style.display="block"
@@ -287,6 +307,8 @@ function showOverTime(){
 
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="flex"
+
+ document.getElementById("mainContainer").className = "container formMode"
  
  window.scrollTo(0,0)  
  
@@ -299,6 +321,8 @@ function showLeave(){
  document.getElementById("menu").style.display="none"
  document.getElementById("leaveBox").style.display="flex"
 
+ document.getElementById("mainContainer").className = "container formMode"
+ 
  window.scrollTo(0,0)  
  
  document.getElementById("backBtn").style.display="block"
@@ -312,8 +336,10 @@ function goBack(){
  document.getElementById("workBox").style.display="none"
  document.getElementById("leaveBox").style.display="none"
 
+ document.getElementById("mainContainer").className = "container centerMode" // 🔥這行是關鍵
+
  document.getElementById("backBtn").style.display="none"
- document.getElementById("pageTitle").style.display="none"  // 🔥隱藏
+ document.getElementById("pageTitle").style.display="none"
 }
 
 // 計算距離
