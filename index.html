@@ -48,6 +48,13 @@ select, input{
     margin-bottom:15px;
   } 
  
+.formGroup{
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+} 
+ 
 .logo{
  width:200px;
  margin-bottom:20px;
@@ -155,23 +162,29 @@ button{
 <!-- 出勤 -->
 <div id="workBox" style="display:none">
 
-<h3>地點</h3>
-<select id="locationType">
-<option value="">請選擇</option>
-<option value="公司內">公司內</option>
-<option value="公司外">公司外</option>
-</select>
+<div class="formGroup">
+  <h3>地點</h3>
+  <select id="locationType">
+  <option value="">請選擇</option>
+  <option value="公司內">公司內</option>
+  <option value="公司外">公司外</option>
+  </select>
+</div>
 
-<h3>類型</h3>
-<select id="clockType">
-<option value="">請選擇</option>
-<option value="上班">上班</option>
-<option value="下班">下班</option>
-</select>
-
-<h3>備註</h3>
-<input id="note" type="text" placeholder="例如：TW Dior 內湖進場">
-
+<div class="formGroup">
+  <h3>類型</h3>
+  <select id="clockType">
+  <option value="">請選擇</option>
+  <option value="上班">上班</option>
+  <option value="下班">下班</option>
+  </select>
+</div>
+ 
+<div class="formGroup">
+ <h3>備註</h3>
+ <input id="note" type="text" placeholder="例：TW Dior 內湖進場">
+</div>
+ 
 <button class="submitBtn" onclick="submitClock()">送出</button>
 
 </div>
@@ -186,6 +199,8 @@ button{
 <option value="病假">病假</option>
 <option value="公假">公假</option>
 <option value="年假">年假</option>
+<option value="喪假">喪假</option>
+<option value="婚假">婚假</option>
 </select>
 
 <h3>請假日期</h3>
