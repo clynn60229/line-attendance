@@ -64,11 +64,9 @@ body{
 }
  
 .container{
- min-height: calc(100vh - 160px); /* 扣掉 header + footer */
- display:flex;
- justify-content:center;
- align-items:center;
- flex-direction:column;
+ width:100%;
+ max-width:420px;
+ margin:0 auto;
 }
  
 select, input{
@@ -145,7 +143,7 @@ button{
  flex-direction:column;
  align-items:center;
 
- padding-top:20px;   
+ margin-top:20px; 
  padding-bottom:100px; 
 
  width:100%;
@@ -277,6 +275,8 @@ function showWorkTime(){
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="flex"
 
+ window.scrollTo(0,0)  
+ 
  document.getElementById("backBtn").style.display="block"
  document.getElementById("pageTitle").style.display="block"  // 🔥顯示
  document.getElementById("pageTitle").innerText="上班時間出勤"
@@ -287,7 +287,9 @@ function showOverTime(){
 
  document.getElementById("menu").style.display="none"
  document.getElementById("workBox").style.display="flex"
-
+ 
+ window.scrollTo(0,0)  
+ 
  document.getElementById("backBtn").style.display="block"
  document.getElementById("pageTitle").style.display="block"
  document.getElementById("pageTitle").innerText="以外時間出勤"
@@ -297,6 +299,8 @@ function showLeave(){
  document.getElementById("menu").style.display="none"
  document.getElementById("leaveBox").style.display="flex"
 
+ window.scrollTo(0,0)  
+ 
  document.getElementById("backBtn").style.display="block"
  document.getElementById("pageTitle").style.display="block"
  document.getElementById("pageTitle").innerText="請假"
