@@ -3,14 +3,8 @@
 <style>
 body{
  margin:0;
- height:100vh;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
  font-family:Arial;
  background:#f5f5f5;
- padding-top: env(safe-area-inset-top);
 }
  
 #header{
@@ -37,12 +31,11 @@ body{
 }
  
 .container{
- text-align:center;
- width:100%;
- max-width:420px;
+ min-height: calc(100vh - 160px); /* 扣掉 header + footer */
  display:flex;
- flex-direction:column;
+ justify-content:center;
  align-items:center;
+ flex-direction:column;
 }
  
 .logo{
