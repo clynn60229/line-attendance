@@ -273,7 +273,8 @@ const liffId = "2009436778-W5HckT9B"
 
 const companyLat = 25.043333055473344
 const companyLng = 121.58518373653834
-const allowDistance = 400
+const allowDistance = 376
+const allowDistance_2 = 360
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycby_fM5fqpUaoEl4iMOcYFVs1_rjsFGGfeFtYyAPbpPJHCjZNC-NpoA8ayIgDDkyWzLj1A/exec"
 
@@ -390,7 +391,7 @@ async function submitClock(){
   const lng = pos.coords.longitude
   const distance = getDistance(lat,lng,companyLat,companyLng)
 
-  if(locationType === "公司內" && distance > allowDistance){
+  if(locationType === "公司內" && distance > allowDistance || distance < allowDistance_2){
    alert("❌不在公司範圍")
    btn.disabled = false
    return
