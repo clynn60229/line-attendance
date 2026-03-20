@@ -5,15 +5,32 @@ body{
  margin:0;
  height:100vh;
  display:flex;
- justify-content:center;
+ flex-direction:column;
+ justify-content:flex-start;
  align-items:center;
  font-family:Arial;
  background:#f5f5f5;
 }
  
-.logo{
- width:200px;
- margin-bottom:20px;
+#header{
+ width:100%;
+ height:80px;
+ background:#777;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.headerLogo{
+ height:45px;
+}
+
+#footer{
+ width:100%;
+ height:80px;
+ background:#777;
+ position:fixed;
+ bottom:0;
 }
  
 .container{
@@ -23,6 +40,11 @@ body{
  display:flex;
  flex-direction:column;
  align-items:center;
+}
+ 
+.logo{
+ width:200px;
+ margin-bottom:20px;
 }
 
 h2{
@@ -81,9 +103,14 @@ button{
  display:none;
  z-index:1000;
 }
+ 
 </style>
 
 <body>
+
+<div id="header">
+  <img src="line logo.png" class="headerLogo">
+</div>
 
 <button id="backBtn" onclick="goBack()">←</button>
  
@@ -103,7 +130,8 @@ button{
 <button onclick="showOverTime()">以外時間出勤</button>
 
 <button onclick="showLeave()">請假</button>
-
+<div id="footer"></div>
+ 
 </div>
 
 <!-- 出勤 -->
