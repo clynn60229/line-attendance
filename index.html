@@ -34,9 +34,12 @@ body{
 }
 
 #pageTitle{
+ display:none; /* 🔥 預設隱藏 */
  color:white;
  font-size:20px;
  font-weight:bold;
+ text-align:center;
+ width:100%;
 }
 
 #footer{
@@ -255,25 +258,32 @@ async function init(){
 // 顯示頁面
 function showWorkTime(){
  currentMode = "worktime"
+
  document.getElementById("menu").style.display="none"
- document.getElementById("workBox").style.display="block"
- document.getElementById("header").style.display="block"
+ document.getElementById("workBox").style.display="flex"
+
+ document.getElementById("backBtn").style.display="block"
+ document.getElementById("pageTitle").style.display="block"  // 🔥顯示
  document.getElementById("pageTitle").innerText="上班時間出勤"
- document.getElementById("backBtn").style.display="block" 
 }
 
 function showOverTime(){
  currentMode = "overtime"
+
  document.getElementById("menu").style.display="none"
- document.getElementById("workBox").style.display="block"
- document.getElementById("header").style.display="block"
+ document.getElementById("workBox").style.display="flex"
+
+ document.getElementById("backBtn").style.display="block"
+ document.getElementById("pageTitle").style.display="block"
  document.getElementById("pageTitle").innerText="以外時間出勤"
 }
 
 function showLeave(){
  document.getElementById("menu").style.display="none"
- document.getElementById("leaveBox").style.display="block"
- document.getElementById("header").style.display="block"
+ document.getElementById("leaveBox").style.display="flex"
+
+ document.getElementById("backBtn").style.display="block"
+ document.getElementById("pageTitle").style.display="block"
  document.getElementById("pageTitle").innerText="請假"
 }
 
@@ -282,7 +292,9 @@ function goBack(){
  document.getElementById("menu").style.display="block"
  document.getElementById("workBox").style.display="none"
  document.getElementById("leaveBox").style.display="none"
- document.getElementById("header").style.display="none"
+
+ document.getElementById("backBtn").style.display="none"
+ document.getElementById("pageTitle").style.display="none"  // 🔥隱藏
 }
 
 // 計算距離
