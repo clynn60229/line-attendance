@@ -49,14 +49,15 @@ body{
 }
  
 select, input{
-    width:80%;
-    max-width:300px;
-    font-size:20px;
-    padding:15px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    margin-bottom:15px;
-  } 
+ width:85%;
+ max-width:350px;
+
+ font-size:30px;      /* 🔥 放大字 */
+ padding:20px;        /* 🔥 放大高度 */
+
+ border-radius:15px;
+ border:1px solid #ccc;
+}
  
 .formGroup{
  width:100%;
@@ -77,7 +78,7 @@ h2{
 }
  
 h3{
- font-size:60px;
+ font-size:70px;
  margin:20px 0 10px 0;
  text-align:center;
 }
@@ -110,29 +111,34 @@ button{
 }
 
 .submitBtn{
- width:70%;
- max-width:300px;
- height:60px;
- font-size:22px;
- border-radius:15px;
- border:none;
+ width:80%;
+ max-width:350px;
+
+ height:100px;        /* 🔥 變高 */
+ font-size:35px;      /* 🔥 字變大 */
+
+ border-radius:20px;
  background:#555;
  color:white;
- margin:25px auto;
+
  display:flex;
  align-items:center;
  justify-content:center;
+
+ margin-top:20px;
 }
  
-#workBox, #leaveBox{
+#workBox{
+ width:100%;
+
  display:flex;
  flex-direction:column;
  align-items:center;
 
- margin-top:20px; 
- padding-bottom:100px; 
+ justify-content:flex-start;  /* 🔥 不要置中，改靠上 */
+ gap:30px;                    /* 🔥 每個區塊間距 */
 
- width:100%;
+ margin-top:40px;             /* 🔥 整體往下微調（可調） */
 }
  
 #backBtn{
@@ -173,7 +179,7 @@ button{
  flex-direction:column;
  align-items:center;
 
- padding-top:20px;
+ padding-top:40px;          /* 🔥 控制整體往上 */
  padding-bottom:120px;
 
  width:100%;
