@@ -206,8 +206,7 @@ button{
     </button>
     
     <button onclick="showOverTime()">以外時間出勤</button>
-    
-    <button onclick="showLeave()">請假</button>
+   
   </div>
 </div>
 <div id="footer"></div>
@@ -241,27 +240,6 @@ button{
    </div>
     
    <button class="submitBtn" onclick="submitClock()">送出</button>
-
-</div>
-
-<!-- 請假 -->
-<div id="leaveBox" style="display:none">
-
-<h3>請假類型</h3>
-<select id="leaveType">
-<option value="">請選擇</option>
-<option value="事假">事假</option>
-<option value="病假">病假</option>
-<option value="公假">公假</option>
-<option value="年假">年假</option>
-<option value="喪假">喪假</option>
-<option value="婚假">婚假</option>
-</select>
-
-<h3>請假日期</h3>
-<input id="leaveDate" type="text" placeholder="例如 3/20~3/25">
-
-<button class="submitBtn" onclick="submitLeave()">送出</button>
 
 </div>
 
