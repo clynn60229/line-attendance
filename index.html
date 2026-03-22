@@ -18,31 +18,6 @@ body{
 
  padding-top: env(safe-area-inset-top);
 }
-
- #backBtn{
- display:none;
-
- position:absolute;
- left:20px;
- top:50%;
- transform:translateY(-50%);  /* 🔥 垂直正中 */
-
- font-size:60px;              /* 🔥 調整大小（建議 50~70） */
- font-weight:300;
-
- background:none;
- border:none;
- color:white;
-
- width:80px;                  /* 🔥 點擊範圍 */
- height:80px;
-
- display:flex;                /* 🔥 讓箭頭真的置中 */
- align-items:center;
- justify-content:center;
-
- padding:0;
-}
  
 .headerLogo{
  position:absolute;
@@ -160,17 +135,30 @@ button{
  width:100%;
 }
  
-#backBtn{
+ #backBtn{
+ display:none;
+
  position:absolute;
- left:15px;
+ left:20px;
  top:50%;
- transform:translateY(-50%); /* 🔥 垂直置中 */
- font-size:22px;
+ transform:translateY(-50%);  /* 🔥 垂直正中 */
+
+ font-size:60px;              /* 🔥 調整大小（建議 50~70） */
+ font-weight:300;
+
  background:none;
  border:none;
  color:white;
+
+ width:80px;                  /* 🔥 點擊範圍 */
+ height:80px;
+
+ display:flex;                /* 🔥 讓箭頭真的置中 */
+ align-items:center;
+ justify-content:center;
+
+ padding:0;
 }
- 
 /* 主頁置中 */
 .centerMode{
  min-height:calc(100vh - 250px);
