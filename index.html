@@ -113,15 +113,22 @@ h3{
 }
  
 button{
- width:180%;
- max-width:500px;
+ width:90%;              /* 建議不要 180% 會跑版 */
+ max-width:420px;
+
+ height:160px;           /* 🔥 固定高度 */
+ 
  font-size:50px;
- padding:40px;
  border-radius:20px;
  border:none;
  background:#dcdcdc;
  color:#007AFF;
  font-weight:600;
+
+ display:flex;           /* 🔥 讓內容置中 */
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
 }
 
 .submitBtn{
