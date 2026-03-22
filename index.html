@@ -305,25 +305,11 @@ function showOverTime(){
  document.getElementById("pageTitle").style.display="block"
  document.getElementById("pageTitle").innerText="以外時間出勤"
 }
-
-function showLeave(){
- document.getElementById("menu").style.display="none"
- document.getElementById("leaveBox").style.display="flex"
-
- document.getElementById("mainContainer").className = "container formMode"
  
- window.scrollTo(0,0)  
- 
- document.getElementById("backBtn").style.display="block"
- document.getElementById("pageTitle").style.display="block"
- document.getElementById("pageTitle").innerText="請假"
-}
-
 // 返回
 function goBack(){
  document.getElementById("menu").style.display="flex"
  document.getElementById("workBox").style.display="none"
- document.getElementById("leaveBox").style.display="none"
 
  document.getElementById("mainContainer").className = "container centerMode" // 🔥這行是關鍵
 
@@ -403,40 +389,6 @@ async function submitClock(){
   liff.closeWindow()
 
  })
-
-}
-
-// 請假
-async function submitLeave(){
-
- const profile = await liff.getProfile()
-
- const type = document.getElementById("leaveType").value
- const date = document.getElementById("leaveDate").value
-
- if(!type){
-  alert("請選擇請假類型")
-  return
- }
-
- if(!date){
-  alert("請輸入日期")
-  return
- }
-
- await fetch(GAS_URL,{
-  method:"POST",
-  body:new URLSearchParams({
-   mode:"leave",
-   userId:profile.userId,
-   name:profile.displayName,
-   type:type,
-   note:"請假日期: "+date
-  })
- })
-
- alert("✅請假成功")
- liff.closeWindow()
 
 }
 
