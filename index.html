@@ -374,7 +374,7 @@ async function submitClock(){
   const distance = getDistance(lat,lng,companyLat,companyLng)
 
   if(locationType === "公司內" && distance > allowDistance || distance < allowDistance_2){
-   alert("❌不在公司範圍")
+   alert("❌不在公司範圍" + distance)
    btn.disabled = false
    return
   }
