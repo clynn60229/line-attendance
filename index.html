@@ -264,7 +264,7 @@ button{
 </body>
 
 <script>
-
+let isSubmitting = false;
 const liffId = "2009436778-W5HckT9B"
 
 const companyLat = 25.043333055473344
@@ -345,60 +345,93 @@ function getDistance(lat1,lon1,lat2,lon2){
 // 出勤
 async function submitClock(){
 
- const btn = document.querySelector(".submitBtn")
- btn.disabled = true
-
- await liff.ready
- const profile = await liff.getProfile()
-
- const locationType = document.getElementById("locationType").value
- const type = document.getElementById("clockType").value
- const note = document.getElementById("note").value || ""
-
- if(!locationType){
-  alert("請選擇地點")
-  btn.disabled = false
-  return
- }
-
- if(!type){
-  alert("請選擇上班或下班")
-  btn.disabled = false
-  return
- }
-
- navigator.geolocation.getCurrentPosition(async function(pos){
-
-  const lat = pos.coords.latitude
-  const lng = pos.coords.longitude
-  const distance = getDistance(lat,lng,companyLat,companyLng)
-
-  if(locationType === "公司內" && distance > allowDistance || distance < allowDistance_2){
-   alert("❌不在公司範圍" + distance)
-   btn.disabled = false
-   return
+  // 🚫 防連點
+  if(isSubmitting){
+    alert("⏳ 處理中，請勿重複點擊")
+    return
   }
 
-  const res = await fetch(GAS_URL,{
-   method:"POST",
-   body:new URLSearchParams({
-    mode: currentMode,
-    location: locationType,
-    userId: profile.userId,
-    name: profile.displayName,
-    type: type,
-    note: note,
-    lat: lat,
-    lng: lng
-   })
-  })
+  isSubmitting = true   // 🔒 上鎖
 
-  const text = await res.text()
-  alert(text)
-  liff.closeWindow()
+  const btn = document.querySelector(".submitBtn")
+  const originalText = btn.innerText
 
- })
+  try{
 
+    // 🔄 UI 狀態
+    btn.disabled = true
+    btn.innerText = "定位中..."
+
+    await liff.ready
+    const profile = await liff.getProfile()
+
+    const locationType = document.getElementById("locationType").value
+    const type = document.getElementById("clockType").value
+    const note = document.getElementById("note").value || ""
+
+    if(!locationType){
+      throw new Error("請選擇地點")
+    }
+
+    if(!type){
+      throw new Error("請選擇上班或下班")
+    }
+
+    // =========================
+    // 📍 定位
+    // =========================
+    const position = await new Promise((resolve, reject)=>{
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+
+    const lat = position.coords.latitude
+    const lng = position.coords.longitude
+    const distance = getDistance(lat,lng,companyLat,companyLng)
+
+    // ⚠️ 這裡你原本邏輯有 bug（我順便幫你修）
+    if(locationType === "公司內" && (distance > allowDistance || distance < allowDistance_2)){
+      throw new Error("❌不在公司範圍：" + Math.floor(distance) + "m")
+    }
+
+    // =========================
+    // 🌐 送出
+    // =========================
+    btn.innerText = "送出中..."
+
+    const res = await fetch(GAS_URL,{
+      method:"POST",
+      body:new URLSearchParams({
+        mode: currentMode,
+        location: locationType,
+        userId: profile.userId,
+        name: profile.displayName,
+        type: type,
+        note: note,
+        lat: lat,
+        lng: lng
+      })
+    })
+
+    const text = await res.text()
+
+    alert("✅ 打卡成功\n" + text)
+
+    liff.closeWindow()
+
+  }catch(err){
+
+    console.error(err)
+    alert("❌ " + err.message)
+
+  }finally{
+
+    // 🔓 解鎖
+    isSubmitting = false
+
+    // 🔄 按鈕恢復
+    btn.disabled = false
+    btn.innerText = originalText
+  }
 }
 
 init()
